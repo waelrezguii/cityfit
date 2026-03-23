@@ -518,8 +518,19 @@ function setLang(lang) {
   });
 }
 
-function handleSubmit(e, sid, eid) {
+async function handleSubmit(e, sid, eid) {
   e.preventDefault();
+  const email = document.getElementById(eid).value;
+
+  // Send to Formspree — emails go to your inbox
+  try {
+    await fetch('https://formspree.io/f/xyknqldd', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ email: email })
+    });
+  } catch(err) { console.log('Form error', err); }
+
   document.getElementById(eid).value = '';
   const successEl = document.getElementById(sid);
   successEl.innerHTML = translations[currentLang].success;
