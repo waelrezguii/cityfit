@@ -3,290 +3,144 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CityFit — Find Your Perfect City in 60 Seconds</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<title>CityFit — Find Your Perfect City Worldwide</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --bg: #0a0a0f;
-    --surface: #13131a;
-    --surface2: #1c1c28;
-    --accent: #6c63ff;
-    --accent2: #a78bfa;
-    --green: #22d3a5;
-    --text: #f0f0f8;
-    --muted: #8888aa;
-    --border: rgba(255,255,255,0.07);
-  }
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 16px;
-    line-height: 1.6;
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-  .bg-blob {
-    position: fixed; border-radius: 50%; filter: blur(120px);
-    pointer-events: none; z-index: 0;
-  }
-  .blob1 {
-    width: 600px; height: 600px;
-    background: rgba(108,99,255,0.12);
-    top: -200px; left: -200px;
-    animation: blobFloat 8s ease-in-out infinite;
-  }
-  .blob2 {
-    width: 500px; height: 500px;
-    background: rgba(34,211,165,0.08);
-    bottom: -150px; right: -150px;
-    animation: blobFloat 10s ease-in-out infinite reverse;
-  }
-  @keyframes blobFloat {
-    0%,100% { transform: translate(0,0) scale(1); }
-    50% { transform: translate(30px,20px) scale(1.05); }
-  }
-  body::before {
-    content: '';
-    position: fixed; inset: 0; z-index: 0;
-    background-image:
-      linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
-    background-size: 48px 48px;
-    pointer-events: none;
-  }
-  .container {
-    position: relative; z-index: 1;
-    max-width: 680px; margin: 0 auto;
-    padding: 0 24px;
-  }
+:root {
+  --cream: #faf8f4;
+  --warm: #f5f0e8;
+  --sand: #e8dcc8;
+  --terracotta: #c8614a;
+  --terra-dark: #a04535;
+  --ocean: #2a6b8a;
+  --forest: #3a6b4a;
+  --text: #1a1208;
+  --text-secondary: #6b5c42;
+  --text-muted: #9e8c72;
+  --border: rgba(168,140,100,0.18);
+  --white: #ffffff;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--cream);color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;line-height:1.6;overflow-x:hidden}
+body::after{content:'';position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse 80% 60% at 10% 0%,rgba(200,97,74,0.07) 0%,transparent 60%),radial-gradient(ellipse 60% 50% at 90% 100%,rgba(42,107,138,0.06) 0%,transparent 60%);pointer-events:none}
+.container{position:relative;z-index:1;max-width:700px;margin:0 auto;padding:0 28px}
 
-  /* NAV */
-  nav {
-    position: relative; z-index: 10;
-    padding: 24px 0;
-    display: flex; align-items: center; justify-content: space-between;
-  }
-  .logo {
-    font-family: 'Syne', sans-serif;
-    font-size: 22px; font-weight: 800;
-    color: var(--text); letter-spacing: -0.5px;
-  }
-  .logo span { color: var(--accent2); }
+/* NAV */
+nav{padding:28px 0 20px;display:flex;align-items:center;justify-content:space-between;position:relative;z-index:10}
+.logo{font-family:'Playfair Display',serif;font-size:24px;font-weight:800;color:var(--text);letter-spacing:-0.3px}
+.logo span{color:var(--terracotta);font-style:italic}
+.lang-toggle{display:flex;background:var(--white);border:1px solid var(--border);border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.06)}
+.lang-btn{padding:7px 16px;font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;border:none;background:transparent;color:var(--text-muted);transition:all 0.2s;letter-spacing:0.06em}
+.lang-btn.active{background:var(--terracotta);color:white}
 
-  /* LANGUAGE TOGGLE */
-  .lang-toggle {
-    display: flex; gap: 0;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    overflow: hidden;
-  }
-  .lang-btn {
-    padding: 7px 14px;
-    font-family: 'Syne', sans-serif;
-    font-size: 12px; font-weight: 700;
-    cursor: pointer; border: none;
-    background: transparent;
-    color: var(--muted);
-    transition: all 0.2s;
-    letter-spacing: 0.05em;
-  }
-  .lang-btn.active {
-    background: var(--accent);
-    color: white;
-  }
-  .lang-btn:first-child { border-radius: 8px 0 0 8px; }
-  .lang-btn:last-child { border-radius: 0 8px 8px 0; }
+/* HERO */
+.hero{padding:52px 0 36px;text-align:center}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.badge{display:inline-flex;align-items:center;gap:8px;background:var(--white);border:1px solid var(--sand);border-radius:100px;padding:7px 18px;font-size:13px;font-weight:500;color:var(--text-secondary);margin-bottom:32px;box-shadow:0 2px 12px rgba(0,0,0,0.06);animation:fadeUp 0.7s ease both}
+.badge-dot{width:7px;height:7px;border-radius:50%;background:var(--terracotta);box-shadow:0 0 0 3px rgba(200,97,74,0.2);animation:pulseDot 2s ease infinite}
+@keyframes pulseDot{0%,100%{box-shadow:0 0 0 3px rgba(200,97,74,0.2)}50%{box-shadow:0 0 0 6px rgba(200,97,74,0.08)}}
+h1{font-family:'Playfair Display',serif;font-size:clamp(36px,7vw,60px);font-weight:800;line-height:1.08;letter-spacing:-1px;color:var(--text);margin-bottom:22px;animation:fadeUp 0.7s ease 0.1s both}
+h1 em{font-style:italic;color:var(--terracotta)}
+.subheadline{font-size:17px;color:var(--text-secondary);max-width:500px;margin:0 auto 36px;font-weight:400;line-height:1.7;animation:fadeUp 0.7s ease 0.2s both}
+.subheadline strong{color:var(--text);font-weight:600}
 
-  /* HERO */
-  .hero {
-    padding: 60px 0 40px;
-    text-align: center;
-    animation: fadeUp 0.8s ease both;
-  }
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(24px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  .badge {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: rgba(108,99,255,0.12);
-    border: 1px solid rgba(108,99,255,0.3);
-    border-radius: 100px;
-    padding: 6px 16px;
-    font-size: 13px; font-weight: 500;
-    color: var(--accent2);
-    margin-bottom: 28px;
-  }
-  .badge-dot {
-    width: 7px; height: 7px; border-radius: 50%;
-    background: var(--green);
-    box-shadow: 0 0 8px var(--green);
-    animation: pulse 2s ease infinite;
-  }
-  @keyframes pulse {
-    0%,100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.6; transform: scale(0.85); }
-  }
-  h1 {
-    font-family: 'Syne', sans-serif;
-    font-size: clamp(34px, 7vw, 56px);
-    font-weight: 800;
-    line-height: 1.08;
-    letter-spacing: -1.5px;
-    color: var(--text);
-    margin-bottom: 20px;
-  }
-  h1 em {
-    font-style: normal;
-    background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 50%, var(--green) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  .subheadline {
-    font-size: 17px; color: var(--muted);
-    max-width: 480px; margin: 0 auto 36px;
-    font-weight: 400; line-height: 1.65;
-  }
-  .subheadline strong { color: var(--text); font-weight: 500; }
+/* FORM */
+.form-wrap{animation:fadeUp 0.7s ease 0.3s both;margin-bottom:14px}
+.email-form{display:flex;background:var(--white);border:1.5px solid var(--sand);border-radius:18px;padding:6px 6px 6px 22px;max-width:500px;margin:0 auto;box-shadow:0 4px 24px rgba(168,140,100,0.12),0 1px 3px rgba(0,0,0,0.06);transition:border-color 0.2s,box-shadow 0.2s}
+.email-form:focus-within{border-color:var(--terracotta);box-shadow:0 4px 24px rgba(200,97,74,0.15),0 0 0 4px rgba(200,97,74,0.08)}
+.email-form input{flex:1;background:transparent;border:none;outline:none;font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;color:var(--text);min-width:0;padding:10px 0}
+.email-form input::placeholder{color:var(--text-muted)}
+.email-form button{background:var(--terracotta);color:white;border:none;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:600;padding:14px 24px;border-radius:13px;white-space:nowrap;transition:background 0.2s,transform 0.15s}
+.email-form button:hover{background:var(--terra-dark);transform:scale(1.02)}
+.form-note{font-size:12px;color:var(--text-muted);text-align:center;margin-bottom:32px;animation:fadeUp 0.7s ease 0.4s both}
+.form-note strong{color:var(--forest);font-weight:600}
+.success-msg{display:none;background:#f0faf4;border:1.5px solid #6bbf8a;border-radius:14px;padding:14px 18px;text-align:center;font-size:14px;color:var(--forest);font-weight:500;max-width:500px;margin:0 auto 14px}
 
-  /* FORM */
-  .form-wrap { margin-bottom: 16px; }
-  .email-form {
-    display: flex; gap: 10px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 8px 8px 8px 20px;
-    transition: border-color 0.2s;
-    max-width: 480px; margin: 0 auto;
-  }
-  .email-form:focus-within {
-    border-color: rgba(108,99,255,0.5);
-    box-shadow: 0 0 0 3px rgba(108,99,255,0.08);
-  }
-  .email-form input {
-    flex: 1; background: transparent;
-    border: none; outline: none;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 15px; color: var(--text); min-width: 0;
-  }
-  .email-form input::placeholder { color: var(--muted); }
-  .email-form button {
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    color: white; border: none; cursor: pointer;
-    font-family: 'Syne', sans-serif;
-    font-size: 14px; font-weight: 700;
-    padding: 13px 22px; border-radius: 10px;
-    white-space: nowrap;
-    transition: opacity 0.2s, transform 0.15s;
-  }
-  .email-form button:hover { opacity: 0.9; transform: scale(1.02); }
-  .form-note { font-size: 12px; color: var(--muted); text-align: center; margin-bottom: 36px; }
-  .form-note strong { color: var(--green); font-weight: 500; }
-  .success-msg {
-    display: none;
-    background: rgba(34,211,165,0.08);
-    border: 1px solid rgba(34,211,165,0.3);
-    border-radius: 12px; padding: 16px;
-    text-align: center;
-    font-size: 14px; color: var(--green); font-weight: 500;
-    max-width: 480px; margin: 0 auto 16px;
-  }
-  .counter-row {
-    display: flex; align-items: center; justify-content: center; gap: 10px;
-    margin-bottom: 56px;
-  }
-  .avatars { display: flex; }
-  .avatar {
-    width: 30px; height: 30px; border-radius: 50%;
-    border: 2px solid var(--bg); margin-left: -8px;
-    font-size: 13px; display: flex; align-items: center; justify-content: center;
-  }
-  .avatar:first-child { margin-left: 0; }
-  .counter-text { font-size: 13px; color: var(--muted); }
-  .counter-text strong { color: var(--text); font-weight: 500; }
+/* COUNTER */
+.counter-row{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:48px;animation:fadeUp 0.7s ease 0.45s both}
+.avatars{display:flex}
+.avatar{width:32px;height:32px;border-radius:50%;border:2.5px solid var(--cream);margin-left:-9px;font-size:15px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,0.1)}
+.avatar:first-child{margin-left:0}
+.counter-text{font-size:13px;color:var(--text-secondary)}
+.counter-text strong{color:var(--text);font-weight:600}
 
-  /* FEATURES */
-  .features {
-    display: grid; grid-template-columns: 1fr 1fr 1fr;
-    gap: 12px; margin-bottom: 56px;
-  }
-  @media(max-width:520px){ .features { grid-template-columns: 1fr; } }
-  .feature {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 14px; padding: 18px 16px;
-    transition: border-color 0.2s, transform 0.2s;
-  }
-  .feature:hover { border-color: rgba(108,99,255,0.3); transform: translateY(-2px); }
-  .feature-icon { font-size: 22px; margin-bottom: 10px; display: block; }
-  .feature-title { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 5px; }
-  .feature-desc { font-size: 12px; color: var(--muted); line-height: 1.55; }
+/* COUNTRIES */
+.countries-wrap{text-align:center;margin-bottom:52px}
+.countries-label{font-size:11px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:14px}
+.countries-flags{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
+.flag-chip{background:var(--white);border:1px solid var(--sand);border-radius:100px;padding:6px 14px;font-size:13px;color:var(--text-secondary);font-weight:500;box-shadow:0 2px 6px rgba(0,0,0,0.05);transition:transform 0.15s,box-shadow 0.15s}
+.flag-chip:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,0.1)}
 
-  /* MOCK */
-  .mock-wrap { margin-bottom: 56px; }
-  .mock-label { font-size: 12px; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; text-align: center; margin-bottom: 16px; }
-  .mock-card {
-    background: var(--surface); border: 1px solid var(--border);
-    border-radius: 20px; padding: 24px;
-    max-width: 480px; margin: 0 auto;
-  }
-  .mock-input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
-  .mock-input { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; }
-  .mock-input span { display: block; font-size: 10px; color: rgba(136,136,170,0.6); margin-bottom: 3px; text-transform: uppercase; letter-spacing: 0.06em; }
-  .mock-input strong { font-size: 13px; color: var(--text); font-weight: 500; }
-  .mock-results { display: flex; flex-direction: column; gap: 8px; }
-  .mock-city { display: flex; align-items: center; gap: 12px; background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 10px 14px; }
-  .mock-city.top { border-color: rgba(34,211,165,0.3); background: rgba(34,211,165,0.05); }
-  .mock-rank { font-family: 'Syne', sans-serif; font-size: 11px; font-weight: 700; color: var(--muted); width: 20px; flex-shrink: 0; }
-  .mock-city.top .mock-rank { color: var(--green); }
-  .mock-city-name { font-size: 13px; font-weight: 500; color: var(--text); }
-  .mock-city-sub { font-size: 11px; color: var(--muted); }
-  .mock-score { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 700; color: var(--muted); }
-  .mock-city.top .mock-score { color: var(--green); }
-  .mock-bar { width: 50px; height: 4px; border-radius: 2px; background: var(--border); overflow: hidden; margin-top: 4px; }
-  .mock-bar-fill { height: 100%; border-radius: 2px; background: var(--accent2); }
-  .mock-city.top .mock-bar-fill { background: var(--green); }
+/* FEATURES */
+.features{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:52px}
+@media(max-width:540px){.features{grid-template-columns:1fr}}
+.feature{background:var(--white);border:1px solid var(--sand);border-radius:18px;padding:22px 18px;box-shadow:0 2px 12px rgba(0,0,0,0.04);transition:transform 0.2s,box-shadow 0.2s}
+.feature:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,0.08)}
+.feature-icon{font-size:26px;margin-bottom:12px;display:block}
+.feature-title{font-size:14px;font-weight:700;color:var(--text);margin-bottom:6px}
+.feature-desc{font-size:12px;color:var(--text-secondary);line-height:1.6}
 
-  /* PAIN */
-  .pain-section { text-align: center; margin-bottom: 56px; }
-  .pain-title { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 800; margin-bottom: 20px; letter-spacing: -0.5px; }
-  .pain-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; text-align: left; max-width: 480px; margin: 0 auto 24px; }
-  @media(max-width:520px){ .pain-grid { grid-template-columns: 1fr; } }
-  .pain-item { display: flex; gap: 10px; align-items: flex-start; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; font-size: 13px; color: var(--muted); line-height: 1.5; }
-  .pain-x { color: #f87171; font-size: 14px; flex-shrink: 0; margin-top: 1px; }
-  .pain-vs { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 700; color: var(--muted); letter-spacing: 0.1em; margin: 8px 0; }
-  .good-item { display: flex; gap: 10px; align-items: center; background: rgba(34,211,165,0.06); border: 1px solid rgba(34,211,165,0.2); border-radius: 12px; padding: 14px 16px; font-size: 14px; color: var(--text); font-weight: 500; max-width: 480px; margin: 0 auto; }
-  .good-check { color: var(--green); font-size: 16px; }
+/* MOCK */
+.mock-wrap{margin-bottom:52px}
+.mock-label{font-size:11px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.1em;text-align:center;margin-bottom:18px}
+.mock-card{background:var(--white);border:1px solid var(--sand);border-radius:24px;padding:24px;max-width:500px;margin:0 auto;box-shadow:0 8px 40px rgba(168,140,100,0.12),0 2px 8px rgba(0,0,0,0.06)}
+.mock-input-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.mock-input{background:var(--warm);border:1px solid var(--sand);border-radius:12px;padding:10px 14px}
+.mock-input span{display:block;font-size:10px;color:var(--text-muted);margin-bottom:3px;text-transform:uppercase;letter-spacing:0.08em;font-weight:600}
+.mock-input strong{font-size:13px;color:var(--text);font-weight:600}
+.mock-btn{width:100%;background:var(--terracotta);color:white;border:none;border-radius:12px;padding:13px;font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;margin-bottom:16px;transition:background 0.2s}
+.mock-btn:hover{background:var(--terra-dark)}
+.mock-divider{font-size:11px;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:12px}
+.mock-results{display:flex;flex-direction:column;gap:8px}
+.mock-city{display:flex;align-items:center;gap:10px;background:var(--warm);border:1px solid var(--sand);border-radius:12px;padding:11px 14px}
+.mock-city.top{background:linear-gradient(135deg,rgba(200,97,74,0.06),rgba(200,97,74,0.02));border-color:rgba(200,97,74,0.25)}
+.mock-rank{font-family:'Playfair Display',serif;font-size:13px;font-weight:700;color:var(--text-muted);width:22px;flex-shrink:0}
+.mock-city.top .mock-rank{color:var(--terracotta)}
+.mock-flag{font-size:16px;flex-shrink:0}
+.mock-info{flex:1}
+.mock-city-name{font-size:13px;font-weight:600;color:var(--text)}
+.mock-city-sub{font-size:11px;color:var(--text-muted);margin-top:1px}
+.mock-right{text-align:right}
+.mock-score{font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--text-muted)}
+.mock-city.top .mock-score{color:var(--terracotta)}
+.mock-bar{width:48px;height:3px;border-radius:2px;background:var(--sand);overflow:hidden;margin-top:5px;margin-left:auto}
+.mock-bar-fill{height:100%;border-radius:2px;background:var(--sand)}
+.mock-city.top .mock-bar-fill{background:var(--terracotta)}
 
-  /* BOTTOM CTA */
-  .bottom-cta { text-align: center; padding: 48px 0 64px; }
-  .bottom-cta h2 { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 800; margin-bottom: 8px; letter-spacing: -0.5px; }
-  .bottom-cta p { font-size: 15px; color: var(--muted); margin-bottom: 28px; }
+/* PAIN */
+.pain-section{text-align:center;margin-bottom:52px}
+.section-tag{display:inline-block;font-size:11px;font-weight:600;color:var(--terracotta);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:12px}
+.section-title{font-family:'Playfair Display',serif;font-size:clamp(22px,4vw,30px);font-weight:800;line-height:1.2;margin-bottom:24px;letter-spacing:-0.3px}
+.pain-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;text-align:left;max-width:500px;margin:0 auto 24px}
+@media(max-width:520px){.pain-grid{grid-template-columns:1fr}}
+.pain-item{display:flex;gap:10px;align-items:flex-start;background:var(--white);border:1px solid var(--sand);border-radius:14px;padding:13px 15px;font-size:13px;color:var(--text-secondary);line-height:1.5;box-shadow:0 1px 4px rgba(0,0,0,0.04)}
+.pain-x{color:#e05a4a;font-size:15px;flex-shrink:0;margin-top:1px}
+.pain-vs{font-family:'Playfair Display',serif;font-size:14px;font-weight:700;font-style:italic;color:var(--text-muted);margin:10px 0}
+.good-item{display:flex;gap:12px;align-items:center;background:linear-gradient(135deg,rgba(58,107,74,0.08),rgba(42,107,138,0.05));border:1.5px solid rgba(58,107,74,0.2);border-radius:16px;padding:16px 18px;font-size:14px;color:var(--text);font-weight:500;max-width:500px;margin:0 auto;box-shadow:0 2px 12px rgba(58,107,74,0.08)}
+.good-check{width:28px;height:28px;border-radius:50%;background:var(--forest);color:white;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
 
-  footer { border-top: 1px solid var(--border); padding: 24px 0; text-align: center; font-size: 12px; color: var(--muted); }
+/* BOTTOM CTA */
+.bottom-cta{text-align:center;padding:48px 0 72px}
+.bottom-cta h2{font-family:'Playfair Display',serif;font-size:clamp(26px,5vw,36px);font-weight:800;margin-bottom:10px;letter-spacing:-0.5px}
+.bottom-cta h2 em{font-style:italic;color:var(--terracotta)}
+.bottom-cta p{font-size:15px;color:var(--text-secondary);margin-bottom:28px}
 
-  .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
-  .reveal.visible { opacity: 1; transform: translateY(0); }
+/* FOOTER */
+footer{background:var(--warm);border-top:1px solid var(--sand);padding:28px 0;text-align:center;font-size:12px;color:var(--text-muted)}
 
-  @media(max-width:480px){
-    .email-form { flex-direction: column; padding: 14px; border-radius: 14px; }
-    .email-form button { width: 100%; }
-  }
+.reveal{opacity:0;transform:translateY(18px);transition:opacity 0.6s ease,transform 0.6s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+@media(max-width:480px){
+  .email-form{flex-direction:column;padding:14px;gap:10px}
+  .email-form button{width:100%;border-radius:12px;padding:14px}
+}
 </style>
 </head>
 <body>
-
-<div class="bg-blob blob1"></div>
-<div class="bg-blob blob2"></div>
-
 <div class="container">
 
-  <!-- NAV -->
   <nav>
     <div class="logo">City<span>Fit</span></div>
     <div class="lang-toggle">
@@ -295,12 +149,10 @@
     </div>
   </nav>
 
-  <!-- HERO -->
   <section class="hero">
-    <div class="badge"><span class="badge-dot"></span> <span data-key="badge"></span></div>
+    <div class="badge"><span class="badge-dot"></span><span data-key="badge"></span></div>
     <h1 data-key="h1"></h1>
     <p class="subheadline" data-key="sub"></p>
-
     <div class="form-wrap">
       <form class="email-form" onsubmit="handleSubmit(event,'s1','e1')">
         <input type="email" id="e1" data-key-placeholder="placeholder" required>
@@ -309,89 +161,89 @@
     </div>
     <div class="success-msg" id="s1" data-key="success"></div>
     <p class="form-note" data-key="note"></p>
-
     <div class="counter-row">
       <div class="avatars">
-        <div class="avatar" style="background:#6c63ff">😊</div>
-        <div class="avatar" style="background:#22d3a5">🙂</div>
-        <div class="avatar" style="background:#a78bfa">😄</div>
-        <div class="avatar" style="background:#f59e0b">😎</div>
+        <div class="avatar" style="background:#f4d4c0">🧑</div>
+        <div class="avatar" style="background:#c8e4d4">👩</div>
+        <div class="avatar" style="background:#c4d8e8">🧔</div>
+        <div class="avatar" style="background:#e8d4c0">👨</div>
       </div>
       <p class="counter-text"><strong id="count">247</strong> <span data-key="counter"></span></p>
     </div>
   </section>
 
-  <!-- FEATURES -->
-  <div class="features reveal">
-    <div class="feature">
-      <span class="feature-icon">🎯</span>
-      <div class="feature-title" data-key="f1title"></div>
-      <div class="feature-desc" data-key="f1desc"></div>
-    </div>
-    <div class="feature">
-      <span class="feature-icon">⚡</span>
-      <div class="feature-title" data-key="f2title"></div>
-      <div class="feature-desc" data-key="f2desc"></div>
-    </div>
-    <div class="feature">
-      <span class="feature-icon">📊</span>
-      <div class="feature-title" data-key="f3title"></div>
-      <div class="feature-desc" data-key="f3desc"></div>
+  <div class="countries-wrap reveal">
+    <p class="countries-label" data-key="countriesLabel"></p>
+    <div class="countries-flags">
+      <div class="flag-chip">🇺🇸 USA</div>
+      <div class="flag-chip">🇨🇦 Canada</div>
+      <div class="flag-chip">🇦🇺 Australia</div>
+      <div class="flag-chip">🇬🇧 UK</div>
+      <div class="flag-chip">🇩🇪 Germany</div>
+      <div class="flag-chip">🇵🇹 Portugal</div>
+      <div class="flag-chip">🇳🇱 Netherlands</div>
+      <div class="flag-chip">🇫🇷 France</div>
     </div>
   </div>
 
-  <!-- MOCK APP -->
+  <div class="features reveal">
+    <div class="feature"><span class="feature-icon">🎯</span><div class="feature-title" data-key="f1title"></div><div class="feature-desc" data-key="f1desc"></div></div>
+    <div class="feature"><span class="feature-icon">⚡</span><div class="feature-title" data-key="f2title"></div><div class="feature-desc" data-key="f2desc"></div></div>
+    <div class="feature"><span class="feature-icon">🌍</span><div class="feature-title" data-key="f3title"></div><div class="feature-desc" data-key="f3desc"></div></div>
+  </div>
+
   <div class="mock-wrap reveal">
     <p class="mock-label" data-key="mockLabel"></p>
     <div class="mock-card">
       <div class="mock-input-row">
         <div class="mock-input"><span data-key="mockJob"></span><strong>Software Engineer</strong></div>
-        <div class="mock-input"><span data-key="mockSalary"></span><strong>$85,000 / year</strong></div>
+        <div class="mock-input"><span data-key="mockSalary"></span><strong>$85,000 / yr</strong></div>
       </div>
+      <button class="mock-btn" data-key="mockBtn"></button>
+      <p class="mock-divider" data-key="mockResults"></p>
       <div class="mock-results">
         <div class="mock-city top">
-          <div class="mock-rank">#1</div>
-          <div style="flex:1"><div class="mock-city-name">Knoxville, TN</div><div class="mock-city-sub" data-key="city1sub"></div></div>
-          <div><div class="mock-score">96</div><div class="mock-bar"><div class="mock-bar-fill" style="width:96%"></div></div></div>
+          <div class="mock-rank">#1</div><div class="mock-flag">🇨🇦</div>
+          <div class="mock-info"><div class="mock-city-name">Toronto, Canada</div><div class="mock-city-sub" data-key="city1sub"></div></div>
+          <div class="mock-right"><div class="mock-score">96</div><div class="mock-bar"><div class="mock-bar-fill" style="width:96%"></div></div></div>
         </div>
         <div class="mock-city">
-          <div class="mock-rank">#2</div>
-          <div style="flex:1"><div class="mock-city-name">Raleigh, NC</div><div class="mock-city-sub" data-key="city2sub"></div></div>
-          <div><div class="mock-score">91</div><div class="mock-bar"><div class="mock-bar-fill" style="width:91%"></div></div></div>
+          <div class="mock-rank">#2</div><div class="mock-flag">🇦🇺</div>
+          <div class="mock-info"><div class="mock-city-name">Melbourne, Australia</div><div class="mock-city-sub" data-key="city2sub"></div></div>
+          <div class="mock-right"><div class="mock-score">91</div><div class="mock-bar"><div class="mock-bar-fill" style="width:91%"></div></div></div>
         </div>
         <div class="mock-city">
-          <div class="mock-rank">#3</div>
-          <div style="flex:1"><div class="mock-city-name">Boise, ID</div><div class="mock-city-sub" data-key="city3sub"></div></div>
-          <div><div class="mock-score">87</div><div class="mock-bar"><div class="mock-bar-fill" style="width:87%"></div></div></div>
+          <div class="mock-rank">#3</div><div class="mock-flag">🇵🇹</div>
+          <div class="mock-info"><div class="mock-city-name">Lisbon, Portugal</div><div class="mock-city-sub" data-key="city3sub"></div></div>
+          <div class="mock-right"><div class="mock-score">87</div><div class="mock-bar"><div class="mock-bar-fill" style="width:87%"></div></div></div>
         </div>
         <div class="mock-city">
-          <div class="mock-rank">#4</div>
-          <div style="flex:1"><div class="mock-city-name">Charlotte, NC</div><div class="mock-city-sub" data-key="city4sub"></div></div>
-          <div><div class="mock-score">83</div><div class="mock-bar"><div class="mock-bar-fill" style="width:83%"></div></div></div>
+          <div class="mock-rank">#4</div><div class="mock-flag">🇺🇸</div>
+          <div class="mock-info"><div class="mock-city-name">Austin, USA</div><div class="mock-city-sub" data-key="city4sub"></div></div>
+          <div class="mock-right"><div class="mock-score">83</div><div class="mock-bar"><div class="mock-bar-fill" style="width:83%"></div></div></div>
         </div>
         <div class="mock-city">
-          <div class="mock-rank">#5</div>
-          <div style="flex:1"><div class="mock-city-name">Huntsville, AL</div><div class="mock-city-sub" data-key="city5sub"></div></div>
-          <div><div class="mock-score">79</div><div class="mock-bar"><div class="mock-bar-fill" style="width:79%"></div></div></div>
+          <div class="mock-rank">#5</div><div class="mock-flag">🇩🇪</div>
+          <div class="mock-info"><div class="mock-city-name">Berlin, Germany</div><div class="mock-city-sub" data-key="city5sub"></div></div>
+          <div class="mock-right"><div class="mock-score">79</div><div class="mock-bar"><div class="mock-bar-fill" style="width:79%"></div></div></div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- PAIN -->
   <div class="pain-section reveal">
-    <h2 class="pain-title" data-key="painTitle"></h2>
+    <span class="section-tag" data-key="painTag"></span>
+    <h2 class="section-title" data-key="painTitle"></h2>
     <div class="pain-grid">
       <div class="pain-item"><span class="pain-x">✗</span><span data-key="p1"></span></div>
       <div class="pain-item"><span class="pain-x">✗</span><span data-key="p2"></span></div>
       <div class="pain-item"><span class="pain-x">✗</span><span data-key="p3"></span></div>
       <div class="pain-item"><span class="pain-x">✗</span><span data-key="p4"></span></div>
     </div>
-    <p class="pain-vs">VS</p>
-    <div class="good-item"><span class="good-check">✓</span><span data-key="good"></span></div>
+    <p class="pain-vs" data-key="vs"></p>
+    <div class="good-item"><div class="good-check">✓</div><span data-key="good"></span></div>
   </div>
 
-  <!-- BOTTOM CTA -->
   <div class="bottom-cta reveal">
     <h2 data-key="ctaTitle"></h2>
     <p data-key="ctaSub"></p>
@@ -402,150 +254,130 @@
       </form>
     </div>
     <div class="success-msg" id="s2" data-key="success"></div>
-    <p class="form-note" style="margin-top:12px" data-key="note"></p>
+    <p class="form-note" style="margin-top:14px" data-key="note"></p>
   </div>
 
 </div>
 
-<footer>
-  <div class="container">
-    <span data-key="footer"></span>
-  </div>
-</footer>
+<footer><div class="container"><span data-key="footer"></span></div></footer>
 
 <script>
-const translations = {
-  en: {
-    badge: "Now accepting early access",
-    h1: `Find Your Perfect City<br>in <em>60 Seconds</em>`,
-    sub: `Enter your job, salary, and priorities.<br>CityFit scores every major US city and ranks the <strong>top 5 that actually fit your life.</strong>`,
-    placeholder: "Enter your email address",
-    cta1: "Get Early Access →",
-    cta2: "Join the Waitlist →",
-    success: "✓ You're on the list! We'll email you when CityFit launches.",
-    note: `<strong>Free for the first 500 people.</strong> No spam. Unsubscribe anytime.`,
-    counter: "people already on the waitlist",
-    f1title: "Personalized to You",
-    f1desc: "Score based on your exact job, salary and priorities",
-    f2title: "60 Seconds",
-    f2desc: "Not 3 months of Googling, Reddit and YouTube vlogs",
-    f3title: "Real Data",
-    f3desc: "Cost of living, jobs, safety, schools — one score",
-    mockLabel: "Preview — what your results look like",
-    mockJob: "Job title",
-    mockSalary: "Salary",
-    city1sub: "Best salary stretch + growing tech scene",
-    city2sub: "Top job market growth in the US",
-    city3sub: "Remote-friendly + outdoor lifestyle",
-    city4sub: "Finance & tech hub, affordable living",
-    city5sub: "NASA + defense, absurdly affordable",
-    painTitle: "Stop doing this the hard way",
-    p1: "3 hours on Zillow in cities you're not sure about",
-    p2: "Asking strangers on Reddit for life advice",
-    p3: "12 YouTube vlogs about Austin that say nothing",
-    p4: "Generic 'best cities' lists that aren't about you",
-    good: "Your personalized top 5 cities in 60 seconds — based on your job, salary, and life",
-    ctaTitle: "Ready to find your city?",
-    ctaSub: "Join 247 people already waiting. First 500 get free lifetime access.",
-    footer: "© 2026 CityFit · Built for people who make decisions with data, not guesses."
+const T={
+  en:{
+    badge:"Early access — limited spots",
+    h1:"Stop Googling.<br>Find Your <em>Perfect City</em><br>in 60 Seconds.",
+    sub:"Tell CityFit your job, salary, and what matters to you.<br>We score cities across <strong>4 continents</strong> and rank your personal top 5.",
+    placeholder:"Your email address",
+    cta1:"Get Early Access →",
+    cta2:"Join the Waitlist →",
+    success:"✓ You're on the list! We'll email you the moment CityFit launches.",
+    note:"<strong>Free for the first 500 people.</strong> No spam. Unsubscribe anytime.",
+    counter:"people already on the waitlist",
+    countriesLabel:"Cities scored across",
+    f1title:"Built Around You",
+    f1desc:"Your score is based on your exact job, salary and personal priorities — not a generic ranking",
+    f2title:"60 Seconds Flat",
+    f2desc:"Not 3 months of Googling, Reddit threads, and YouTube vlogs that lead nowhere",
+    f3title:"Worldwide Coverage",
+    f3desc:"USA, Canada, Australia, UK, Germany, Portugal, France, Netherlands and growing",
+    mockLabel:"Here's what your results look like",
+    mockJob:"Your job",
+    mockSalary:"Your salary",
+    mockBtn:"Find My Perfect City →",
+    mockResults:"Your top 5 matches",
+    city1sub:"Top salary stretch · booming tech scene",
+    city2sub:"Best livability score in the Pacific",
+    city3sub:"Lowest cost in Europe · sun all year",
+    city4sub:"Fastest growing tech scene in the US",
+    city5sub:"Creative hub · affordable for Europe",
+    painTag:"The old way",
+    painTitle:"There's a better way<br>to make this decision.",
+    p1:"Hours on Zillow and Numbeo with no clear answer",
+    p2:"Asking strangers on Reddit for life advice",
+    p3:"YouTube vlogs that don't match your situation",
+    p4:"Generic 'best cities' lists that ignore your life",
+    vs:"— vs —",
+    good:"Your personalized top 5 cities worldwide in 60 seconds — based on your job, salary and priorities",
+    ctaTitle:"Ready to find <em>your</em> city?",
+    ctaSub:"Join 247 people already on the waitlist. First 500 get free lifetime access.",
+    footer:"© 2026 CityFit · USA · Canada · Australia · Europe · Move smarter."
   },
-  fr: {
-    badge: "Accès anticipé disponible maintenant",
-    h1: `Trouve ta ville idéale<br>en <em>60 secondes</em>`,
-    sub: `Entre ton métier, ton salaire et tes priorités.<br>CityFit note chaque grande ville américaine et te propose les <strong>5 qui correspondent vraiment à ta vie.</strong>`,
-    placeholder: "Entre ton adresse email",
-    cta1: "Accès anticipé gratuit →",
-    cta2: "Rejoindre la liste →",
-    success: "✓ Tu es sur la liste ! On t'enverra un email au lancement de CityFit.",
-    note: `<strong>Gratuit pour les 500 premiers.</strong> Pas de spam. Désabonnement à tout moment.`,
-    counter: "personnes déjà sur la liste d'attente",
-    f1title: "Personnalisé pour toi",
-    f1desc: "Score basé sur ton métier exact, ton salaire et tes priorités",
-    f2title: "60 secondes",
-    f2desc: "Pas 3 mois de Google, Reddit et vlogs YouTube",
-    f3title: "Vraies données",
-    f3desc: "Coût de la vie, emplois, sécurité, écoles — un seul score",
-    mockLabel: "Aperçu — à quoi ressemblent tes résultats",
-    mockJob: "Métier",
-    mockSalary: "Salaire",
-    city1sub: "Meilleur pouvoir d'achat + scène tech en croissance",
-    city2sub: "Marché de l'emploi le plus dynamique aux États-Unis",
-    city3sub: "Télétravail + style de vie en plein air",
-    city4sub: "Hub finance & tech, logement abordable",
-    city5sub: "NASA + défense, incroyablement abordable",
-    painTitle: "Arrête de faire ça à la dure",
-    p1: "3 heures sur Zillow dans des villes dont tu n'es pas sûr",
-    p2: "Demander conseil à des inconnus sur Reddit",
-    p3: "12 vlogs YouTube sur Austin qui ne disent rien",
-    p4: "Listes génériques 'meilleures villes' pas adaptées à toi",
-    good: "Ton top 5 personnalisé en 60 secondes — basé sur ton métier, ton salaire et ta vie",
-    ctaTitle: "Prêt à trouver ta ville ?",
-    ctaSub: "Rejoins 247 personnes déjà sur la liste. Les 500 premiers ont un accès gratuit à vie.",
-    footer: "© 2026 CityFit · Conçu pour ceux qui décident avec des données, pas des suppositions."
+  fr:{
+    badge:"Accès anticipé — places limitées",
+    h1:"Arrête de Googler.<br>Trouve <em>Ta Ville Idéale</em><br>en 60 Secondes.",
+    sub:"Dis à CityFit ton métier, ton salaire et tes priorités.<br>On analyse les villes sur <strong>4 continents</strong> et on te donne ton top 5 personnalisé.",
+    placeholder:"Ton adresse email",
+    cta1:"Accès anticipé gratuit →",
+    cta2:"Rejoindre la liste →",
+    success:"✓ Tu es sur la liste ! On t'enverra un email au lancement de CityFit.",
+    note:"<strong>Gratuit pour les 500 premiers.</strong> Pas de spam. Désabonnement à tout moment.",
+    counter:"personnes déjà sur la liste",
+    countriesLabel:"Villes analysées dans le monde",
+    f1title:"Fait pour Toi",
+    f1desc:"Ton score est basé sur ton métier exact, ton salaire et tes priorités — pas un classement générique",
+    f2title:"60 Secondes Chrono",
+    f2desc:"Pas 3 mois de Google, Reddit et vlogs YouTube qui ne mènent nulle part",
+    f3title:"Couverture Mondiale",
+    f3desc:"USA, Canada, Australie, UK, Allemagne, Portugal, France, Pays-Bas et plus",
+    mockLabel:"Voici à quoi ressemblent tes résultats",
+    mockJob:"Ton métier",
+    mockSalary:"Ton salaire",
+    mockBtn:"Trouver Ma Ville Idéale →",
+    mockResults:"Ton top 5 personnalisé",
+    city1sub:"Meilleur pouvoir d'achat · scène tech en plein essor",
+    city2sub:"Meilleur score de qualité de vie dans le Pacifique",
+    city3sub:"Coût de vie le plus bas d'Europe · soleil toute l'année",
+    city4sub:"Scène tech la plus rapide des États-Unis",
+    city5sub:"Hub créatif · abordable pour l'Europe",
+    painTag:"L'ancienne façon",
+    painTitle:"Il existe une meilleure façon<br>de prendre cette décision.",
+    p1:"Des heures sur Zillow et Numbeo sans réponse claire",
+    p2:"Demander conseil à des inconnus sur Reddit",
+    p3:"Des vlogs YouTube qui ne correspondent pas à ta situation",
+    p4:"Listes génériques qui ignorent ta vie",
+    vs:"— vs —",
+    good:"Ton top 5 mondial personnalisé en 60 secondes — basé sur ton métier, ton salaire et tes priorités",
+    ctaTitle:"Prêt à trouver <em>ta</em> ville ?",
+    ctaSub:"Rejoins 247 personnes déjà sur la liste. Les 500 premiers ont un accès gratuit à vie.",
+    footer:"© 2026 CityFit · USA · Canada · Australie · Europe · Déménage intelligemment."
   }
 };
 
-let currentLang = 'en';
-let count = 247;
+let lang='en', count=247;
 
-function setLang(lang) {
-  currentLang = lang;
-  const t = translations[lang];
-
-  // Update lang buttons
-  document.querySelectorAll('.lang-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.textContent === lang.toUpperCase());
-  });
-
-  // Update html lang attribute
-  document.documentElement.lang = lang;
-
-  // Update title
-  document.title = lang === 'fr'
-    ? 'CityFit — Trouve ta ville idéale en 60 secondes'
-    : 'CityFit — Find Your Perfect City in 60 Seconds';
-
-  // Update all text elements
-  document.querySelectorAll('[data-key]').forEach(el => {
-    const key = el.getAttribute('data-key');
-    if (t[key] !== undefined) el.innerHTML = t[key];
-  });
-
-  // Update placeholders
-  document.querySelectorAll('[data-key-placeholder]').forEach(el => {
-    const key = el.getAttribute('data-key-placeholder');
-    if (t[key] !== undefined) el.placeholder = t[key];
-  });
+function setLang(l){
+  lang=l;
+  const t=T[l];
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.textContent===l.toUpperCase()));
+  document.documentElement.lang=l;
+  document.title=l==='fr'?'CityFit — Trouve ta ville idéale en 60 secondes':'CityFit — Find Your Perfect City Worldwide';
+  document.querySelectorAll('[data-key]').forEach(el=>{const k=el.getAttribute('data-key');if(t[k]!==undefined)el.innerHTML=t[k];});
+  document.querySelectorAll('[data-key-placeholder]').forEach(el=>{const k=el.getAttribute('data-key-placeholder');if(t[k]!==undefined)el.placeholder=t[k];});
 }
 
-async function handleSubmit(e, sid, eid) {
+async function handleSubmit(e,sid,eid){
   e.preventDefault();
-  const email = document.getElementById(eid).value;
-
-  // Send to Formspree — emails go to your inbox
-  try {
-    await fetch('https://formspree.io/f/xjgaqjpv', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body: JSON.stringify({ email: email })
+  const email=document.getElementById(eid).value;
+  try{
+    await fetch('https://formspree.io/f/xjgaqjpv',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body:JSON.stringify({email})
     });
-  } catch(err) { console.log('Form error', err); }
-
-  document.getElementById(eid).value = '';
-  const successEl = document.getElementById(sid);
-  successEl.innerHTML = translations[currentLang].success;
-  successEl.style.display = 'block';
+  }catch(err){console.log(err);}
+  document.getElementById(eid).value='';
+  const el=document.getElementById(sid);
+  el.innerHTML=T[lang].success;
+  el.style.display='block';
   count++;
-  document.getElementById('count').textContent = count;
+  document.getElementById('count').textContent=count;
 }
 
-// Scroll reveal
-const obs = new IntersectionObserver(entries => {
-  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold: 0.1 });
-document.querySelectorAll('.reveal').forEach(r => obs.observe(r));
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
+},{threshold:0.08});
+document.querySelectorAll('.reveal').forEach(r=>obs.observe(r));
 
-// Init with English
 setLang('en');
 </script>
 </body>
